@@ -21,7 +21,7 @@ public class Personaje {
 
     private String name;
     private String image;
-    private Integer age;
+    private String age;
     private float weight;
     private String story;
 

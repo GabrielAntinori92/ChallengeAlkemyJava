@@ -26,18 +26,20 @@ public class PersonajeController {
         personajeService.save(character);
     }
 
-    @GetMapping("")
-    public ResponseEntity<List<PersonajeDTO>> getAll(){
-        List<PersonajeDTO> characters = personajeService.getAll();
 
-        if(characters.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(characters);
+    @GetMapping("")
+    public ResponseEntity<List<PersonajeDTO>> getByQueryParameters(@RequestParam(required = false) Map<String,Object> params){
+        if(params.isEmpty()){
+            return getAll();
         }
 
-        return ResponseEntity.ok(characters);
+        return ResponseEntity.ok(personajeService.getWithQuery(params));
     }
 
-    
+    @GetMapping("/{id}")
+    public ResponseEntity<Personaje> getDetails(@PathVariable Integer id){
+        return ResponseEntity.ok(personajeService.getById(id).get());
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Integer> delete(@PathVariable Integer id){
@@ -58,5 +60,15 @@ public class PersonajeController {
             return new ResponseEntity<>(id,HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(id,HttpStatus.OK);
+    }
+
+    private ResponseEntity<List<PersonajeDTO>> getAll(){
+        List<PersonajeDTO> characters = personajeService.getAll();
+
+        if(characters.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(characters);
+        }
+
+        return ResponseEntity.ok(characters);
     }
 }

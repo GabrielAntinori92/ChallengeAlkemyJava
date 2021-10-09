@@ -27,7 +27,7 @@ public class Movie {
 
     @ManyToMany
     @JoinTable(
-            name = "movie_characters",
+            name = "movie_personaje",
             joinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "character_id", referencedColumnName = "id")
     )

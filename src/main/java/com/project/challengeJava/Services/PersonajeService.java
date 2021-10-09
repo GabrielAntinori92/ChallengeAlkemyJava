@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -43,6 +44,20 @@ public class PersonajeService {
         Optional<Personaje> character = personajeRepository.findById(id);
 
         return character;
+    }
+
+    public List<PersonajeDTO> getWithQuery(Map<String,Object> parameters){
+        List<PersonajeDTO> characters = null;
+
+        if(parameters.containsKey("name")){
+           characters = personajeRepository.findByName((String) parameters.get("name"));
+        }else if(parameters.containsKey("age")){
+            characters = personajeRepository.findByAge((String) parameters.get("age"));
+        }else if(parameters.containsKey("movie")){
+            characters = personajeRepository.findByMovieId(Integer.parseInt((String)parameters.get("movie")));
+        }
+
+        return characters;
     }
 
     public List<PersonajeDTO> getAll(){
