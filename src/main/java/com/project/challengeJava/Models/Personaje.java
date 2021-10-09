@@ -1,17 +1,22 @@
 package com.project.challengeJava.Models;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.Columns;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 
 @Entity
 @NoArgsConstructor
-public class Character {
+public class Personaje {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String name;
@@ -23,4 +28,6 @@ public class Character {
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "movie_id", referencedColumnName = "id")
     private List<Movie> movies;
+
+
 }

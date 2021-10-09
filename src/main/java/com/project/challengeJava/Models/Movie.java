@@ -1,19 +1,21 @@
 package com.project.challengeJava.Models;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Fetch;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 
 @Entity
 @NoArgsConstructor
 public class Movie {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String title;
@@ -21,7 +23,6 @@ public class Movie {
     private Integer rate;
 
     @OneToOne(fetch = FetchType.LAZY)
-
     private Genre genre;
 
     @ManyToMany
@@ -30,5 +31,5 @@ public class Movie {
             joinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "character_id", referencedColumnName = "id")
     )
-    private List<Character> characters;
+    private List<Personaje> characters;
 }
