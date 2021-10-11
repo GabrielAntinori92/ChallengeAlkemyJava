@@ -1,7 +1,7 @@
 package com.project.challengeJava.Services;
 
 import com.project.challengeJava.Models.Personaje;
-import com.project.challengeJava.Models.PersonajeDTO;
+import com.project.challengeJava.DTO.PersonajeDTO;
 import com.project.challengeJava.Repositories.PersonajeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

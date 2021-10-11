@@ -1,5 +1,7 @@
 package com.project.challengeJava.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,14 +24,16 @@ public class Movie {
     private Date premiere;
     private Integer rate;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "genre_id", referencedColumnName = "id")
+    @JsonBackReference
     private Genre genre;
 
     @ManyToMany
     @JoinTable(
             name = "movie_personaje",
             joinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "character_id", referencedColumnName = "id")
+            inverseJoinColumns = @JoinColumn(name = "personaje_id", referencedColumnName = "id")
     )
     private List<Personaje> characters;
 }

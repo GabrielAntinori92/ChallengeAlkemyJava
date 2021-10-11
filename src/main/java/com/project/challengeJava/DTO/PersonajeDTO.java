@@ -1,4 +1,4 @@
-package com.project.challengeJava.Models;
+package com.project.challengeJava.DTO;
 
 public interface PersonajeDTO {
     public Integer getId();

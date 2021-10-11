@@ -1,13 +1,12 @@
 package com.project.challengeJava.Controllers;
 
 import com.project.challengeJava.Models.Personaje;
-import com.project.challengeJava.Models.PersonajeDTO;
+import com.project.challengeJava.DTO.PersonajeDTO;
 import com.project.challengeJava.Services.PersonajeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 import java.util.Map;
@@ -21,9 +20,10 @@ public class PersonajeController {
     private PersonajeService personajeService;
 
     @PostMapping("")
-    @ResponseStatus(value = HttpStatus.CREATED)
-    public void save(@RequestBody Personaje character){
+    public ResponseEntity save(@RequestBody Personaje character){
         personajeService.save(character);
+
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 
 
@@ -38,18 +38,20 @@ public class PersonajeController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Personaje> getDetails(@PathVariable Integer id){
-        return ResponseEntity.ok(personajeService.getById(id).get());
+        final Optional<Personaje> character = personajeService.getById(id);
+
+        if(character.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(character.get());
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Integer> delete(@PathVariable Integer id){
-        Optional<Personaje> character = personajeService.getById(id);
-
-        if(character.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
         personajeService.delete(id);
-        return new ResponseEntity<>(id,HttpStatus.OK);
+
+        return new ResponseEntity<>(id,HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/{id}")

@@ -1,5 +1,6 @@
 package com.project.challengeJava.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +22,7 @@ public class Genre {
     private String image;
     private String name;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "movie_id", referencedColumnName = "id")
+    @OneToMany(mappedBy = "genre", fetch = FetchType.LAZY)
+    @JsonBackReference
     private List<Movie> movies;
 }

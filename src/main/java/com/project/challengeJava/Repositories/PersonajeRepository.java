@@ -1,7 +1,7 @@
 package com.project.challengeJava.Repositories;
 
 import com.project.challengeJava.Models.Personaje;
-import com.project.challengeJava.Models.PersonajeDTO;
+import com.project.challengeJava.DTO.PersonajeDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import java.util.List;
