@@ -1,5 +1,6 @@
 package com.project.challengeJava.Controllers;
 
+import com.project.challengeJava.DTO.MovieDTO;
 import com.project.challengeJava.Models.Movie;
 import com.project.challengeJava.Services.MovieService;
 import org.apache.coyote.Response;
@@ -14,13 +15,13 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/movies")
+@RequestMapping("/v1/api/movies")
 public class MovieController {
     @Autowired
     private MovieService movieService;
 
     @GetMapping("")
-    public ResponseEntity<List<Movie>> getAllOrQuery(@RequestParam(required = false) Map<String,Object> params){
+    public ResponseEntity<List<MovieDTO>> getAllOrQuery(@RequestParam(required = false) Map<String,Object> params){
         if(params.isEmpty()){
             return ResponseEntity.ok(movieService.getAll());
         }
@@ -28,12 +29,12 @@ public class MovieController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Movie> getById(@PathVariable Integer id){
+    public ResponseEntity<Movie> getById(@PathVariable Long id){
         return ResponseEntity.ok(movieService.getById(id).get());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity delete(@PathVariable Integer id){
+    public ResponseEntity delete(@PathVariable Long id){
         movieService.delete(id);
 
         return new ResponseEntity<>(id,HttpStatus.NO_CONTENT);
@@ -46,7 +47,7 @@ public class MovieController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity update(@PathVariable Integer id, @RequestBody Movie movie){
+    public ResponseEntity update(@PathVariable Long id, @RequestBody Movie movie){
         try{
             movieService.update(id,movie);
         }catch (Exception e){

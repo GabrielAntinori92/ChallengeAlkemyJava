@@ -1,7 +1,7 @@
 package com.project.challengeJava.Controllers;
 
-import com.project.challengeJava.Models.Personaje;
 import com.project.challengeJava.DTO.PersonajeDTO;
+import com.project.challengeJava.Models.Personaje;
 import com.project.challengeJava.Services.PersonajeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/characters")
+@RequestMapping("v1/api/characters")
 public class PersonajeController {
 
     @Autowired
@@ -37,7 +37,7 @@ public class PersonajeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Personaje> getDetails(@PathVariable Integer id){
+    public ResponseEntity<Personaje> getDetails(@PathVariable Long id){
         final Optional<Personaje> character = personajeService.getById(id);
 
         if(character.isEmpty()){
@@ -48,14 +48,14 @@ public class PersonajeController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Integer> delete(@PathVariable Integer id){
+    public ResponseEntity<Long> delete(@PathVariable Long id){
         personajeService.delete(id);
 
         return new ResponseEntity<>(id,HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Integer> update(@PathVariable Integer id, @RequestBody Personaje character){
+    public ResponseEntity<Long> update(@PathVariable Long id, @RequestBody Personaje character){
         try{
             personajeService.update(id,character);
         }catch (Exception e) {

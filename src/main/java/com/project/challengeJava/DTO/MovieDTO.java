@@ -4,11 +4,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
-public class PersonajeDTO {
+public class MovieDTO {
     private Long id;
-    private String personajeName;
+    private String title;
     private String image;
 }

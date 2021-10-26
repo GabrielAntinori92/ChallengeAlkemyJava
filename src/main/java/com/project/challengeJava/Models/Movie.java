@@ -13,14 +13,15 @@ import java.util.List;
 @Getter
 @Setter
 
-@Entity
 @NoArgsConstructor
+@Entity
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     private String title;
+    private String image;
     private Date premiere;
     private Integer rate;
 
