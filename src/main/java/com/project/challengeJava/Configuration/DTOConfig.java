@@ -42,6 +42,15 @@ class ModelMapperConfig {
             }
         });
 
+        modelMapper.addMappings(new PropertyMap<Movie, MovieDTO>() {
+            @Override //Destination = MovieDTO, Source = Movie
+            protected void configure(){
+                map().setTitle(source.getTitle());
+                map().setImage(source.getImage());
+                map().setId(source.getId());
+            }
+        });
+
         return modelMapper;
 
     }

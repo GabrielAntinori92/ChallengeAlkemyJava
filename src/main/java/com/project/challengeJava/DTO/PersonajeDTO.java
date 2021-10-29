@@ -10,5 +10,5 @@ import lombok.Setter;
 public class PersonajeDTO {
     private Long id;
     private String personajeName;
-    private String image;
+    private byte[] image;
 }

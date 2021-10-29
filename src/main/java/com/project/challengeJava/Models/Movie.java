@@ -1,7 +1,6 @@
 package com.project.challengeJava.Models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,26 +14,32 @@ import java.util.List;
 
 @NoArgsConstructor
 @Entity
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String title;
-    private String image;
-    private Date premiere;
-    private Integer rate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "genre_id", referencedColumnName = "id")
-    @JsonBackReference
+    @Lob
+    private byte[] image;
+
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="MM-DD-YYYY")
+    private Date premiere;
+    private float rate;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Genre genre;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE,CascadeType.PERSIST})
     @JoinTable(
-            name = "movie_personaje",
-            joinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "personaje_id", referencedColumnName = "id")
+            name = "movie_characters",
+            joinColumns = {@JoinColumn(name = "movie_id")},
+            inverseJoinColumns = {@JoinColumn(name = "personaje_id")}
     )
     private List<Personaje> characters;
 }

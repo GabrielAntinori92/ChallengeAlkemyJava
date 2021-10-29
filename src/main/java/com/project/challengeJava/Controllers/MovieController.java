@@ -1,15 +1,20 @@
 package com.project.challengeJava.Controllers;
 
 import com.project.challengeJava.DTO.MovieDTO;
+import com.project.challengeJava.Models.Genre;
 import com.project.challengeJava.Models.Movie;
 import com.project.challengeJava.Services.MovieService;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.net.URI;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -35,14 +40,19 @@ public class MovieController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable Long id){
-        movieService.delete(id);
-
-        return new ResponseEntity<>(id,HttpStatus.NO_CONTENT);
+        try{
+            movieService.delete(id);
+            return ResponseEntity.ok(id);
+        }catch (EmptyResultDataAccessException e){
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping("")
-    public ResponseEntity save(@RequestBody Movie movie){
-        movieService.save(movie);
+    public ResponseEntity save(@RequestPart MultipartFile image, @RequestParam String title,
+                               @RequestParam("premiere") @DateTimeFormat(pattern = "MM-dd-yyyy") Date premiere,
+                               @RequestParam float rate, @RequestParam(required = false) String genreName){
+        movieService.save(image,title,premiere,rate,genreName);
         return new ResponseEntity(HttpStatus.CREATED);
     }
 

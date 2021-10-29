@@ -4,9 +4,11 @@ import com.project.challengeJava.DTO.PersonajeDTO;
 import com.project.challengeJava.Models.Personaje;
 import com.project.challengeJava.Services.PersonajeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -20,8 +22,9 @@ public class PersonajeController {
     private PersonajeService personajeService;
 
     @PostMapping("")
-    public ResponseEntity save(@RequestBody Personaje character){
-        personajeService.save(character);
+    public ResponseEntity save(@RequestPart MultipartFile image, @RequestParam String name, @RequestParam String age,
+                               @RequestParam String story, @RequestParam float weight){
+        personajeService.save(image,name,age,story,weight);
 
         return new ResponseEntity(HttpStatus.CREATED);
     }
@@ -49,9 +52,12 @@ public class PersonajeController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Long> delete(@PathVariable Long id){
-        personajeService.delete(id);
-
-        return new ResponseEntity<>(id,HttpStatus.NO_CONTENT);
+        try{
+            personajeService.delete(id);
+            return ResponseEntity.ok(id);
+        }catch (EmptyResultDataAccessException e){
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PutMapping("/{id}")

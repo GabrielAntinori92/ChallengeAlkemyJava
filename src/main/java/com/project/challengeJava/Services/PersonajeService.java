@@ -6,11 +6,12 @@ import com.project.challengeJava.Repositories.PersonajeRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.io.IOException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,7 +23,16 @@ public class PersonajeService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public void save(Personaje character){
+    public void save(MultipartFile image, String name,String age,
+                     String story, float weight){
+        Personaje character = new Personaje();
+
+        character.setName(name);
+        character.setAge(age);
+        character.setStory(story);
+        character.setWeight(weight);
+        character.setImage(encodeImage(image));
+
         personajeRepository.save(character);
     }
 
@@ -75,5 +85,15 @@ public class PersonajeService {
                 .collect(Collectors.toList());
 
         return dtos;
+    }
+
+    private byte[] encodeImage(MultipartFile image) {
+        byte[] encodedImage = null;
+        try{
+            encodedImage = Base64.getEncoder().encode(image.getBytes());
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return encodedImage;
     }
 }

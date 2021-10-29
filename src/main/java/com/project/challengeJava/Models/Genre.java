@@ -19,10 +19,12 @@ public class Genre {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String image;
+    @Lob
+    private byte[] image;
+
+    @Column(unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "genre", fetch = FetchType.LAZY)
-    @JsonBackReference
+    @OneToMany(mappedBy = "genre",cascade = {CascadeType.PERSIST,CascadeType.MERGE}, fetch = FetchType.LAZY)
     private List<Movie> movies;
 }

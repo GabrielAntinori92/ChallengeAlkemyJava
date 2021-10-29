@@ -1,10 +1,11 @@
 package com.project.challengeJava.Models;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Columns;
 
 import javax.persistence.*;
 import java.util.List;
@@ -14,6 +15,9 @@ import java.util.List;
 
 @Entity
 @NoArgsConstructor
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Personaje {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,13 +25,14 @@ public class Personaje {
 
     private String name;
 
-    private String image;
+    @Lob
+    private byte[] image;
+
     private String age;
     private float weight;
     private String story;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "movie_id", referencedColumnName = "id")
+    @ManyToMany(mappedBy = "characters")
     private List<Movie> movies;
 
 

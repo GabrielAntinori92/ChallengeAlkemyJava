@@ -1,16 +1,17 @@
 package com.project.challengeJava.Services;
 
 import com.project.challengeJava.DTO.MovieDTO;
+import com.project.challengeJava.Models.Genre;
 import com.project.challengeJava.Models.Movie;
 import com.project.challengeJava.Repositories.MovieRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.io.IOException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -51,7 +52,17 @@ public class MovieService {
         movieRepository.deleteById(id);
     }
 
-    public void save(Movie movie){
+    public void save(MultipartFile image, String title, Date premiere, float rate, String genre){
+        Movie movie = new Movie();
+        Genre gen = new Genre();
+        gen.setName(genre);
+
+        movie.setTitle(title);
+        movie.setPremiere(premiere);
+        movie.setRate(rate);
+        movie.setImage(encodeImage(image));
+        movie.setGenre(gen);
+
         movieRepository.save(movie);
     }
 
@@ -83,5 +94,21 @@ public class MovieService {
         return movieRepository.findAll().stream()
                 .map(movie -> modelMapper.map(movie,MovieDTO.class))
                 .collect(Collectors.toList());
+    }
+
+    private byte[] encodeImage(MultipartFile image) {
+        byte[] encodedImage = null;
+        try{
+            encodedImage = Base64.getEncoder().encode(image.getBytes());
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return encodedImage;
+    }
+
+    public void save(MultipartFile image,Movie movie){
+        movie.setImage(encodeImage(image));
+
+        movieRepository.save(movie);
     }
 }
