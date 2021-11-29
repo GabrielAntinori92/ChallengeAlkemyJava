@@ -101,6 +101,11 @@ public class MovieController {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Updates a movie")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Movie updated"),
+            @ApiResponse(responseCode = "404", description = "Movie not found")
+    })
     @PutMapping(value = "/{id}", consumes = {
             MediaType.MULTIPART_FORM_DATA_VALUE
     })
@@ -108,7 +113,7 @@ public class MovieController {
         try{
             movieService.update(id,movie);
         }catch (Exception e){
-            return new ResponseEntity(HttpStatus.NO_CONTENT);
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity(HttpStatus.OK);
