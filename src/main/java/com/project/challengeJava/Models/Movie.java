@@ -27,7 +27,7 @@ public class Movie {
     @Lob
     private byte[] image;
 
-    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="MM-DD-YYYY")
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="MM-dd-YYYY")
     private Date premiere;
     private float rate;
 
@@ -35,7 +35,7 @@ public class Movie {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Genre genre;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE,CascadeType.PERSIST})
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     @JoinTable(
             name = "movie_characters",
             joinColumns = {@JoinColumn(name = "movie_id")},

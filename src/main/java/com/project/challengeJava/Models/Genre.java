@@ -25,6 +25,6 @@ public class Genre {
     @Column(unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "genre",cascade = {CascadeType.PERSIST,CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "genre",cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private List<Movie> movies;
 }

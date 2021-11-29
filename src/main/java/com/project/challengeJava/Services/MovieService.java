@@ -4,7 +4,6 @@ import com.project.challengeJava.DTO.MovieDTO;
 import com.project.challengeJava.Models.Genre;
 import com.project.challengeJava.Models.Movie;
 import com.project.challengeJava.Repositories.MovieRepository;
-import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -64,6 +63,7 @@ public class MovieService {
         movie.setImage(encodeImage(image));
         movie.setGenre(gen);
 
+        movieRepository.save(movie);
     }
 
     public void update(Long id, Movie updated){

@@ -14,7 +14,7 @@ public interface PersonajeRepository extends JpaRepository<Personaje,Long> {
     @Query(value = "SELECT id,name,image,age,weight,story FROM Personaje WHERE name LIKE ?1",nativeQuery = true)
     List<Personaje> findByName(String name);
 
-    @Query(value = "SELECT id,name,image,age,weight,story FROM Personaje WHERE age LIKE ?1")
+    @Query(value = "SELECT id,name,image,age,weight,story FROM Personaje WHERE age LIKE ?1",nativeQuery = true)
     List<Personaje> findByAge(String age);
 
     @Query(value= "SELECT id,name,image,age,weight,story From Personaje p " +
