@@ -40,7 +40,6 @@ public class MovieController {
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = MovieDTO.class)))
             ),
             @ApiResponse(responseCode = "204", description = "No content")})
-    
     @GetMapping(value = "",produces = {
             MediaType.APPLICATION_JSON_VALUE
     })
